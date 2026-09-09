@@ -178,6 +178,40 @@ a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-800)}
 </div>
 </sc-if>
 
+<!-- ══ اینباکس ══ -->
+<sc-if value="{{ isInbox }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px;padding:0 18px">
+<div>
+<h4 style="margin:0;font-size:22px">اینباکس</h4>
+<div style="font-size:12px;color:var(--color-neutral-700);margin-top:4px">هر کار مهمی که به ذهنت رسید همین‌جا ثبت کن؛ بعداً یکی را قرارِ فردا کن.</div>
+</div>
+<div style="display:flex;gap:8px">
+<input class="input" dir="rtl" value="{{ inboxDraft }}" onChange="{{ onInboxDraft }}" placeholder="مثلاً: پیگیری بیمه‌ی ماشین" style="flex:1;font-family:var(--font-body);font-size:14px;min-height:50px">
+<div role="button" tabindex="0" onClick="{{ addInboxItem }}" class="btn btn-primary" style="min-height:50px;padding-inline:20px;font-family:var(--font-body);font-weight:700;font-size:14px">افزودن</div>
+</div>
+
+<sc-if value="{{ hasInboxItems }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ inboxItems }}" as="it" hint-placeholder-count="4">
+<div class="card" style="background:var(--color-surface);flex-direction:row;align-items:center;gap:12px;padding:14px 16px">
+<div role="button" tabindex="0" onClick="{{ it.toggle }}" style="width:20px;height:20px;flex:none;border-radius:50%;cursor:pointer;border:2px solid {{ it.dotBorder }};background:{{ it.dotBg }}"></div>
+<div style="flex:1;min-width:0;font-size:14px;color:{{ it.fg }};text-decoration:{{ it.deco }};line-height:1.6">{{ it.text }}</div>
+<div role="button" tabindex="0" onClick="{{ it.useAsTask }}" class="tag" style="cursor:pointer;font-size:11px;background:var(--color-accent-100);color:var(--color-accent-800)">فردا</div>
+<div role="button" tabindex="0" onClick="{{ it.remove }}" style="width:26px;height:26px;flex:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--color-neutral-600);font-size:14px">×</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ noInboxItems }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:6px;padding:24px 20px;border-radius:32px;border:1px dashed var(--color-divider);text-align:center">
+<div style="font-size:14px;font-weight:700">اینباکس خالی است</div>
+<div style="font-size:12px;color:var(--color-neutral-700);line-height:1.8">هر چیزی که به ذهنت رسید همین‌جا بنویس تا فراموش نشود.</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
 <!-- ══ نمودار ══ -->
 <sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;flex-direction:column;gap:18px;padding:0 18px">
@@ -422,6 +456,20 @@ a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-800)}
 <div class="btn btn-secondary" role="button" tabindex="0" onClick="{{ exportText }}" style="flex:1;min-height:44px;font-family:var(--font-body);font-size:13px">متن</div>
 <div class="btn btn-secondary" role="button" tabindex="0" onClick="{{ exportPdf }}" style="flex:1;min-height:44px;font-family:var(--font-body);font-size:13px">PDF</div>
 </div>
+</div>
+
+<div class="card" style="background:var(--color-neutral-100);gap:10px;padding:18px">
+<span style="font-size:13px;font-weight:700">انتقال داده به دستگاه/آدرس دیگر</span>
+<div style="font-size:12px;color:var(--color-neutral-700);line-height:1.7">اینجا (آدرس مبدا) «ساخت کد» بزن، متن را کامل کپی کن، در آدرس مقصد در همین صفحه بچسبان و «وارد کردن» بزن.</div>
+<div role="button" tabindex="0" onClick="{{ makeTransferCode }}" class="btn btn-secondary" style="min-height:44px;font-family:var(--font-body);font-size:13px">ساخت کد انتقال</div>
+<sc-if value="{{ hasTransferCode }}" hint-placeholder-val="{{ false }}">
+<textarea class="input" dir="ltr" readOnly value="{{ transferCode }}" style="font-family:monospace;font-size:11px;min-height:90px"></textarea>
+</sc-if>
+<textarea class="input" dir="ltr" value="{{ importDraft }}" onChange="{{ onImportDraft }}" placeholder="کد کپی‌شده را اینجا بچسبان…" style="font-family:monospace;font-size:11px;min-height:90px"></textarea>
+<div role="button" tabindex="0" onClick="{{ importTransferCode }}" class="btn btn-primary" style="min-height:44px;font-family:var(--font-body);font-size:13px">وارد کردن</div>
+<sc-if value="{{ importMsg }}" hint-placeholder-val="{{ false }}">
+<div style="font-size:12px;color:var(--color-accent-700)">{{ importMsg }}</div>
+</sc-if>
 </div>
 
 <div style="display:flex;gap:8px;justify-content:center">
@@ -696,14 +744,14 @@ class Component extends DCLogic {
       const s = this.state;
       window.localStorage.setItem(this.KEY, JSON.stringify({
         days: s.days.map(d => Object.assign({}, d, { date: d.date.toISOString() })),
-        minors: s.minors, goal: s.goal, settings: s.settings, theme: s.theme, onb: false, pin: s.pin
+        minors: s.minors, goal: s.goal, settings: s.settings, theme: s.theme, onb: false, pin: s.pin, inbox: s.inbox
       }));
     } catch (e) {}
   }
   initialState() {
     const base = {
       tab: 'today', days: this.buildDays(), sheet: false, step: 1, firstTask: false, onb: true, onbStep: 0, theme: 0,
-      minors: [], goal: '',
+      minors: [], goal: '', inbox: [], inboxDraft: '',
       draft: { done: null, deed: '', deedCat: null, score: 4, mood: 4, energy: 3, task: '', taskCat: null, linked: false },
       settings: { morning: true, night: true, weekly: true, insight: true, lock: false },
       pin: '', pinDraft: '', pinAttempt: '', pinError: false, locked: false
@@ -878,7 +926,7 @@ class Component extends DCLogic {
       ['insight', 'بازتاب از نوشته‌ها', 'الگوها را روی دستگاه پیدا می‌کند'],
       ['lock', 'قفل با رمز دستگاه', 'دفترچه خصوصی می‌ماند']
     ];
-    const tabDefs = [['today', 'امروز'], ['stats', 'نمودار'], ['history', 'تاریخچه'], ['settings', 'تنظیمات']];
+    const tabDefs = [['today', 'امروز'], ['inbox', 'اینباکس'], ['stats', 'نمودار'], ['history', 'تاریخچه'], ['settings', 'تنظیمات']];
 
     return {
       th, isDark: dark,
@@ -892,7 +940,29 @@ class Component extends DCLogic {
         fg: i === st.theme ? 'var(--color-accent-800)' : 'var(--color-neutral-800)',
         pick: () => this.setState({ theme: i })
       })),
-      isToday: st.tab === 'today', isStats: st.tab === 'stats', isHistory: st.tab === 'history', isSettings: st.tab === 'settings',
+      isToday: st.tab === 'today', isInbox: st.tab === 'inbox', isStats: st.tab === 'stats', isHistory: st.tab === 'history', isSettings: st.tab === 'settings',
+      inboxDraft: st.inboxDraft, onInboxDraft: e => this.setState({ inboxDraft: e.target.value }),
+      addInboxItem: () => this.setState(s => {
+        const text = (s.inboxDraft || '').trim();
+        if (!text) return {};
+        return { inbox: [{ id: Date.now(), text, done: false }].concat(s.inbox || []), inboxDraft: '' };
+      }),
+      hasInboxItems: (st.inbox || []).length > 0,
+      noInboxItems: (st.inbox || []).length === 0,
+      inboxItems: (st.inbox || []).map(it => ({
+        id: it.id, text: it.text,
+        fg: it.done ? 'var(--color-neutral-600)' : 'var(--color-text)',
+        deco: it.done ? 'line-through' : 'none',
+        dotBorder: it.done ? 'var(--color-accent-2-600)' : 'var(--color-neutral-400)',
+        dotBg: it.done ? 'var(--color-accent-2-600)' : 'transparent',
+        toggle: () => this.setState(s => ({ inbox: (s.inbox || []).map(x => x.id === it.id ? Object.assign({}, x, { done: !x.done }) : x) })),
+        useAsTask: () => this.setState(s => {
+          const d = s.days.slice(), i = d.length - 1;
+          d[i] = Object.assign({}, d[i], { task: it.text });
+          return { days: d, inbox: (s.inbox || []).filter(x => x.id !== it.id), tab: 'today' };
+        }),
+        remove: () => this.setState(s => ({ inbox: (s.inbox || []).filter(x => x.id !== it.id) }))
+      })),
       showSecondary: this.props.showSecondaryTasks !== false && st.minors.length > 0,
       askScore: this.props.askSatisfaction !== false,
       weekdayLabel: this.faWeekday(t.date),
@@ -1008,6 +1078,20 @@ class Component extends DCLogic {
         document.body.appendChild(a); a.click(); a.remove();
       },
       exportPdf: () => window.print(),
+      hasTransferCode: !!st.transferCode,
+      transferCode: st.transferCode || '',
+      makeTransferCode: () => { try { this.setState({ transferCode: window.localStorage.getItem(this.KEY) || '' }); } catch (e) {} },
+      importDraft: st.importDraft || '', onImportDraft: e => this.setState({ importDraft: e.target.value }),
+      importMsg: st.importMsg || '',
+      importTransferCode: () => {
+        try {
+          const parsed = JSON.parse(st.importDraft.trim());
+          if (!parsed || !Array.isArray(parsed.days)) throw new Error();
+          window.localStorage.setItem(this.KEY, st.importDraft.trim());
+          this.setState({ importMsg: 'انجام شد؛ صفحه در حال بازخوانی…' });
+          setTimeout(() => window.location.reload(), 600);
+        } catch (e) { this.setState({ importMsg: 'کد نامعتبر است.' }); }
+      },
       resetAll: () => {
         try { window.localStorage.removeItem(this.KEY); } catch (e) {}
         this.setState({ days: this.buildDays(), minors: [], goal: '', tab: 'today', onb: true, onbStep: 0, sheet: false, step: 1 });
