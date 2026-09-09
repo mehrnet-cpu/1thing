@@ -1,0 +1,17 @@
+{
+  "name": "قرارِ فردا — یک کار مهم، یک کار خوب",
+  "short_name": "قرارِ فردا",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5ead8",
+  "theme_color": "#f5ead8",
+  "description": "هر روز یک کار مهم برای فردا مشخص کن، شب کار خوب امروز را ثبت کن، و نتیجه را روی نمودار ببین.",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

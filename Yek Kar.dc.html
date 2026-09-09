@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-1d2dcbeb-1dfd-4fe3-a4bf-da8ee0fd76c6/styles.css">
+<script src="_ds/organic-1d2dcbeb-1dfd-4fe3-a4bf-da8ee0fd76c6/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap">
+<style>
+:root{--font-heading:"Vazirmatn",system-ui,sans-serif;--font-body:"Vazirmatn",system-ui,sans-serif}
+body{margin:0;background:var(--color-bg);font-family:var(--font-body)}
+h1,h2,h3,h4,h5{font-weight:800;letter-spacing:0}
+a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-800)}
+@keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes popIn{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;gap:22px;padding:40px 24px 60px;font-family:var(--font-body)">
+
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;max-width:520px">
+<div style="font-size:11px;letter-spacing:.14em;color:var(--color-accent-700)">یک کار مهم · یک کار خوب</div>
+<h3 style="margin:0;font-size:26px">قرارِ فردا</h3>
+<p style="margin:0;font-size:13px;color:var(--color-neutral-700);line-height:1.7">هر وقت خواستی، کار مهم فردا را می‌بندی و کار خوب امروز را ثبت می‌کنی. باقی‌اش نمودار است.</p>
+</div>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ isDark }}" hint-size="402px,874px">
+<div style="position:relative;height:100%;display:flex;flex-direction:column;overflow:hidden;font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);--color-bg:{{ th.bg }};--color-surface:{{ th.surface }};--color-text:{{ th.text }};--color-divider:{{ th.divider }};--color-neutral-100:{{ th.n1 }};--color-neutral-200:{{ th.n2 }};--color-neutral-300:{{ th.n3 }};--color-neutral-400:{{ th.n4 }};--color-neutral-600:{{ th.n6 }};--color-neutral-700:{{ th.n7 }};--color-neutral-800:{{ th.n8 }};--color-neutral-900:{{ th.n9 }};--color-accent-100:{{ th.a1 }};--color-accent-200:{{ th.a2 }};--color-accent-800:{{ th.a8 }};--color-accent-900:{{ th.a9 }};--color-accent-2-100:{{ th.b1 }};--color-accent-2-200:{{ th.b2 }};--color-accent-2-800:{{ th.b8 }};--color-accent-2-900:{{ th.b9 }};--color-accent:{{ th.ac }};--color-accent-400:{{ th.ac4 }};--color-accent-500:{{ th.ac5 }};--color-accent-600:{{ th.ac6 }};--color-accent-700:{{ th.ac7 }};--color-accent-2:{{ th.b }};--color-accent-2-300:{{ th.b3 }};--color-accent-2-400:{{ th.b4 }};--color-accent-2-500:{{ th.b5 }};--color-accent-2-600:{{ th.b6 }};--color-accent-2-700:{{ th.b7 }}">
+
+<sc-if value="{{ isLocked }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:95;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center">
+<div style="font-size:16px;font-weight:800">دفترچه قفل است</div>
+<div style="font-size:12px;color:var(--color-neutral-700)">رمز چهار رقمی را وارد کن</div>
+<input class="input" dir="ltr" value="{{ pinAttempt }}" onChange="{{ onPinAttempt }}" placeholder="۰۰۰۰" inputMode="numeric" maxLength="4" style="font-family:var(--font-body);font-size:20px;letter-spacing:10px;text-align:center;min-height:52px;max-width:180px">
+<sc-if value="{{ pinError }}" hint-placeholder-val="{{ false }}">
+<div style="font-size:12px;color:var(--color-accent-700)">رمز درست نیست.</div>
+</sc-if>
+<div role="button" tabindex="0" onClick="{{ tryUnlock }}" class="btn btn-primary" style="min-height:48px;font-family:var(--font-body);font-size:14px;min-width:140px">باز کردن</div>
+</div>
+</sc-if>
+
+<div style="flex:1;overflow:auto;padding:62px 0 12px">
+
+<!-- ══ امروز ══ -->
+<sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:16px;padding:0 18px">
+
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+<div>
+<div style="font-size:11px;letter-spacing:.1em;color:var(--color-accent-700)">{{ weekdayLabel }}</div>
+<h4 style="margin:2px 0 0;font-size:22px">{{ greeting }}</h4>
+<div style="font-size:12px;color:var(--color-neutral-700);margin-top:3px">{{ dateLabel }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px">
+<div role="button" tabindex="0" onClick="{{ cycleTheme }}" title="{{ themeLabel }}" style="width:38px;height:38px;flex:none;border-radius:50%;cursor:pointer;display:grid;place-items:center;background:var(--color-surface);border:1px solid var(--color-divider)" style-hover="transform:scale(1.08)">
+<div style="width:18px;height:18px;border-radius:50%;background:{{ grad }};box-shadow:{{ glow }}"></div>
+</div>
+<div style="width:64px;height:64px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--color-accent) {{ ringPct }}%, rgba(128,120,110,.22) 0)">
+<div style="width:52px;height:52px;border-radius:50%;background:var(--color-bg);display:grid;place-items:center;line-height:1">
+<div style="font-size:18px;font-weight:800">{{ streakFa }}</div>
+<div style="font-size:10px;color:var(--color-neutral-700);margin-top:1px">روز</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;align-items:stretch;gap:12px">
+<div style="width:5px;flex:none;border-radius:999px;background:{{ grad }}"></div>
+<div style="font-size:14px;font-weight:700;line-height:1.7;color:var(--color-accent-800);align-self:center">{{ quote }}</div>
+</div>
+
+<sc-if value="{{ hasTask }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-surface);padding:20px;gap:14px;animation:riseIn .4s ease both;box-shadow:{{ glow }}">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+<span class="card-kicker" style="font-size:10px">کار مهم امروز</span>
+<span class="tag" style="background:{{ todayCatBg }};color:{{ todayCatFg }};font-size:10px">{{ todayCatLabel }}</span>
+</div>
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div role="button" tabindex="0" onClick="{{ toggleDone }}" style="width:46px;height:46px;flex:none;border-radius:50%;cursor:pointer;display:grid;place-items:center;border:2px solid {{ checkBorder }};background:{{ checkBg }};transition:all .25s" style-hover="transform:scale(1.06)">
+<div style="width:16px;height:9px;border-right:3px solid {{ checkMark }};border-bottom:3px solid {{ checkMark }};transform:rotate(45deg) translate(-1px,-2px)"></div>
+</div>
+<div style="min-width:0">
+<div style="font-size:18px;font-weight:700;line-height:1.5;text-wrap:pretty;color:{{ taskColor }};text-decoration:{{ taskDeco }}">{{ todayTask }}</div>
+<div style="font-size:12px;color:var(--color-neutral-700);margin-top:6px">{{ taskHint }}</div>
+</div>
+</div>
+<sc-if value="{{ taskLinked }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:7px;padding-top:10px;border-top:1px solid var(--color-divider)">
+<div style="width:5px;height:5px;border-radius:50%;background:var(--color-accent-2-500)"></div>
+<div style="font-size:11px;color:var(--color-neutral-700)">وصل به هدف فصل: {{ goalTitle }}</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ noTask }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:8px;padding:26px 20px;border-radius:32px;border:1px dashed var(--color-divider);background:var(--color-surface);text-align:center;animation:riseIn .4s ease both">
+<div style="font-size:17px;font-weight:800">هنوز کاری تعیین نکردی</div>
+<div style="font-size:13px;color:var(--color-neutral-700);line-height:1.8">یک کار مهم انتخاب کن — همین یکی. از امشب چرخه شروع می‌شود.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showSecondary }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;letter-spacing:.08em;color:var(--color-neutral-700);padding-inline-start:4px">اگر جا شد</div>
+<sc-for list="{{ minors }}" as="m" hint-placeholder-count="2">
+<div role="button" tabindex="0" onClick="{{ m.toggle }}" style="display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:48px;border-radius:999px;cursor:pointer;background:{{ m.bg }};border:1px solid var(--color-divider)" style-hover="background:var(--color-neutral-200)">
+<div style="width:18px;height:18px;flex:none;border-radius:50%;border:2px solid {{ m.dotBorder }};background:{{ m.dotBg }}"></div>
+<div style="font-size:14px;color:{{ m.fg }};text-decoration:{{ m.deco }}">{{ m.text }}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasGoal }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-accent-100);gap:10px;padding:16px 18px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+<span style="font-size:11px;letter-spacing:.08em;color:var(--color-accent-800)">هدف این فصل</span>
+<span style="font-size:11px;color:var(--color-accent-800)">{{ goalPctFa }}</span>
+</div>
+<div style="font-size:15px;font-weight:700;line-height:1.6;color:var(--color-accent-900)">{{ goalTitle }}</div>
+<div style="height:10px;border-radius:999px;background:rgba(128,120,110,.22);overflow:hidden">
+<div style="height:100%;border-radius:999px;background:var(--color-accent-600);width:{{ goalPct }}%;transition:width .5s"></div>
+</div>
+<div style="font-size:11px;color:var(--color-accent-800);line-height:1.7">{{ goalNote }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasData }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-accent-2-100);gap:10px;padding:16px 18px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font-size:13px;font-weight:700;color:var(--color-accent-2-800)">این هفته</span>
+<span style="font-size:11px;color:var(--color-accent-2-800)">{{ weekSummary }}</span>
+</div>
+<div style="display:flex;gap:7px">
+<sc-for list="{{ weekDots }}" as="d" hint-placeholder-count="7">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+<div style="width:100%;height:34px;border-radius:12px;background:{{ d.bg }};border:1px dashed {{ d.border }}"></div>
+<div style="font-size:11px;color:var(--color-accent-2-800)">{{ d.label }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;letter-spacing:.08em;color:var(--color-neutral-700);padding-inline-start:4px">آخرین کار خوبِ ثبت‌شده</div>
+<div class="card" style="background:var(--color-neutral-100);gap:8px;padding:16px 18px">
+<div style="font-size:14px;line-height:1.7">{{ lastDeed }}</div>
+<div class="card-meta" style="font-size:11px">{{ lastDeedMeta }}</div>
+</div>
+</div>
+</sc-if>
+
+<div onClick="{{ openSheet }}" role="button" tabindex="0" class="btn" style="min-height:54px;font-family:var(--font-body);font-weight:700;font-size:16px;margin-top:2px;background:{{ grad }};color:{{ onGrad }};box-shadow:{{ glow }};border:none">{{ ctaLabel }}</div>
+<div style="font-size:11px;color:var(--color-neutral-700);text-align:center;line-height:1.8">هر ساعتی از شبانه‌روز که خواستی. یادآوری اجباری نیست.</div>
+<div style="height:8px"></div>
+</div>
+</sc-if>
+
+<!-- ══ نمودار ══ -->
+<sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:18px;padding:0 18px">
+<h4 style="margin:0;font-size:22px">نمودارها</h4>
+
+<div style="display:flex;gap:10px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="3">
+<div class="card" style="flex:1;background:{{ k.bg }};padding:14px 12px;gap:2px;align-items:center;text-align:center">
+<div style="font-size:22px;font-weight:800;color:{{ k.fg }}">{{ k.value }}</div>
+<div style="font-size:10px;color:var(--color-neutral-700);line-height:1.4">{{ k.label }}</div>
+</div>
+</sc-for>
+</div>
+
+<sc-if value="{{ noData }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:8px;padding:26px 20px;border-radius:32px;border:1px dashed var(--color-divider);text-align:center">
+<div style="font-size:15px;font-weight:800">نموداری هنوز نیست</div>
+<div style="font-size:13px;color:var(--color-neutral-700);line-height:1.8">از اولین ثبت، زنجیره و حال و انرژی و دسته‌ها اینجا ساخته می‌شوند.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasData }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-surface);gap:14px;padding:18px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font-size:13px;font-weight:700">زنجیره‌ی ۱۴ روز گذشته</span>
+<span style="font-size:10px;color:var(--color-neutral-700)">ارتفاع = رضایت</span>
+</div>
+<div style="display:flex;align-items:flex-end;gap:6px;height:96px">
+<sc-for list="{{ bars }}" as="b" hint-placeholder-count="14">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%">
+<div style="width:100%;border-radius:8px 8px 6px 6px;background:{{ b.bg }};height:{{ b.h }}px;transition:height .4s"></div>
+<div style="font-size:10px;color:var(--color-neutral-700)">{{ b.label }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div class="card" style="background:var(--color-neutral-100);gap:14px;padding:18px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font-size:13px;font-weight:700">حال و انرژی</span>
+<span style="font-size:10px;color:var(--color-neutral-700)">۱۴ روز</span>
+</div>
+<sc-for list="{{ moodRows }}" as="r" hint-placeholder-count="2">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-neutral-700)">
+<span>{{ r.label }}</span><span>میانگین {{ r.avg }}</span>
+</div>
+<div style="display:flex;align-items:flex-end;gap:4px;height:44px">
+<sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="14">
+<div style="flex:1;border-radius:6px;background:{{ c.bg }};height:{{ c.h }}%"></div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div class="card" style="background:var(--color-surface);gap:12px;padding:18px">
+<span style="font-size:13px;font-weight:700">میانگین هفتگی و ماهانه</span>
+<sc-for list="{{ averages }}" as="a" hint-placeholder-count="5">
+<div style="display:flex;flex-direction:column;gap:5px">
+<div style="display:flex;justify-content:space-between;font-size:12px">
+<span style="color:{{ a.fg }}">{{ a.label }}</span>
+<span style="color:var(--color-neutral-700);font-size:11px">{{ a.value }}</span>
+</div>
+<div style="height:8px;border-radius:999px;background:rgba(128,120,110,.2);overflow:hidden">
+<div style="height:100%;border-radius:999px;background:{{ a.color }};width:{{ a.pct }}%"></div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div class="card" style="background:var(--color-neutral-100);gap:12px;padding:18px">
+<span style="font-size:13px;font-weight:700">دفترچه، ۱۰ هفته اخیر</span>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ heat }}" as="w" hint-placeholder-count="10">
+<div style="display:flex;gap:5px;align-items:center">
+<div style="font-size:10px;color:var(--color-neutral-700);width:30px;flex:none">{{ w.label }}</div>
+<sc-for list="{{ w.cells }}" as="c" hint-placeholder-count="7">
+<div title="{{ c.title }}" style="flex:1;aspect-ratio:1;border-radius:6px;background:{{ c.bg }}"></div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:8px;font-size:10px;color:var(--color-neutral-700);margin-top:2px">
+<span>کمتر</span>
+<sc-for list="{{ legend }}" as="l" hint-placeholder-count="4">
+<div style="width:14px;height:14px;border-radius:4px;background:{{ l.bg }}"></div>
+</sc-for>
+<span>بیشتر</span>
+</div>
+</div>
+
+<div class="card" style="background:var(--color-surface);gap:14px;padding:18px">
+<span style="font-size:13px;font-weight:700">کارهای خوب، بر اساس دسته</span>
+<div style="display:flex;flex-direction:column;gap:11px">
+<sc-for list="{{ catBars }}" as="c" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:5px">
+<div style="display:flex;justify-content:space-between;font-size:12px">
+<span>{{ c.label }}</span>
+<span style="color:var(--color-neutral-700);font-size:11px">{{ c.count }}</span>
+</div>
+<div style="height:10px;border-radius:999px;background:rgba(128,120,110,.2);overflow:hidden">
+<div style="height:100%;border-radius:999px;background:{{ c.color }};width:{{ c.pct }}%;transition:width .5s"></div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+</sc-if>
+
+<sc-if value="{{ hasInsights }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-accent-100);gap:12px;padding:18px">
+<span style="font-size:13px;font-weight:700;color:var(--color-accent-800)">بازتاب</span>
+<sc-for list="{{ insights }}" as="i" hint-placeholder-count="3">
+<div style="display:flex;gap:9px;align-items:flex-start">
+<div style="width:6px;height:6px;border-radius:50%;flex:none;margin-top:7px;background:var(--color-accent-600)"></div>
+<div style="font-size:13px;line-height:1.8;color:var(--color-accent-900)">{{ i.text }}</div>
+</div>
+</sc-for>
+<div style="font-size:10px;color:var(--color-accent-800);line-height:1.7;padding-top:4px;border-top:1px solid var(--color-divider)">از روی نوشته‌های خودت ساخته می‌شود؛ جایی فرستاده نمی‌شود.</div>
+</div>
+</sc-if>
+
+<div class="card" style="background:var(--color-neutral-100);gap:12px;padding:18px">
+<span style="font-size:13px;font-weight:700">نشان‌ها</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<sc-for list="{{ badges }}" as="b" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:6px;padding:14px 12px;border-radius:22px;background:{{ b.bg }};border:1px solid {{ b.border }};opacity:{{ b.op }}">
+<div style="width:30px;height:30px;border-radius:50%;background:{{ b.dot }};display:grid;place-items:center;font-size:12px;font-weight:800;color:{{ b.dotFg }}">{{ b.mark }}</div>
+<div style="font-size:12px;font-weight:700;line-height:1.4;color:{{ b.fg }}">{{ b.label }}</div>
+<div style="font-size:10px;color:var(--color-neutral-700);line-height:1.5">{{ b.sub }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ hasData }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-accent-2-100);gap:8px;padding:18px">
+<span style="font-size:13px;font-weight:700;color:var(--color-accent-2-800)">مرور هفته</span>
+<div style="font-size:13px;line-height:1.9;color:var(--color-accent-2-900)">{{ review }}</div>
+</div>
+</sc-if>
+<div style="height:8px"></div>
+</div>
+</sc-if>
+
+<!-- ══ تاریخچه ══ -->
+<sc-if value="{{ isHistory }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:14px;padding:0 18px">
+<h4 style="margin:0;font-size:22px">تاریخچه</h4>
+
+<sc-if value="{{ noData }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:8px;padding:26px 20px;border-radius:32px;border:1px dashed var(--color-divider);text-align:center">
+<div style="font-size:15px;font-weight:800">دفترچه خالی است</div>
+<div style="font-size:13px;color:var(--color-neutral-700);line-height:1.8">هر شب که ثبت کنی، یک روز به اینجا اضافه می‌شود.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasData }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-surface);gap:10px;padding:18px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font-size:13px;font-weight:700">{{ monthLabel }}</span>
+<span style="font-size:11px;color:var(--color-neutral-700)">{{ monthSummary }}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+<sc-for list="{{ calendar }}" as="c" hint-placeholder-count="35">
+<div style="aspect-ratio:1;border-radius:12px;display:grid;place-items:center;font-size:10px;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.border }}">{{ c.day }}</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ history }}" as="h" hint-placeholder-count="8">
+<div class="card" style="background:{{ h.bg }};gap:8px;padding:16px 18px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+<span style="font-size:12px;font-weight:700">{{ h.date }}</span>
+<span class="tag" style="background:{{ h.tagBg }};color:{{ h.tagFg }};font-size:10px">{{ h.status }}</span>
+</div>
+<div style="font-size:14px;line-height:1.6;color:{{ h.taskFg }}">{{ h.task }}</div>
+<div style="display:flex;align-items:flex-start;gap:8px;padding-top:8px;border-top:1px solid var(--color-divider)">
+<div style="width:6px;height:6px;border-radius:50%;flex:none;margin-top:6px;background:{{ h.deedColor }}"></div>
+<div style="font-size:12px;color:var(--color-neutral-700);line-height:1.7">{{ h.deed }}</div>
+</div>
+<div style="font-size:11px;color:var(--color-neutral-700)">{{ h.meta }}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<div style="height:8px"></div>
+</div>
+</sc-if>
+
+<!-- ══ تنظیمات ══ -->
+<sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px;padding:0 18px">
+<h4 style="margin:0;font-size:22px">تنظیمات</h4>
+<div class="card" style="background:var(--color-surface);gap:12px;padding:18px">
+<span style="font-size:13px;font-weight:700">تم</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ themeChips }}" as="c" hint-placeholder-count="4">
+<div role="button" tabindex="0" onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};border:1px solid {{ c.border }}">
+<div style="width:18px;height:18px;flex:none;border-radius:50%;background:{{ c.grad }}"></div>
+<div style="font-size:12px;font-weight:700;color:{{ c.fg }}">{{ c.label }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div class="card" style="background:var(--color-surface);gap:4px;padding:8px 18px">
+<sc-for list="{{ toggles }}" as="t" hint-placeholder-count="5">
+<div role="button" tabindex="0" onClick="{{ t.toggle }}" style="display:flex;align-items:center;gap:12px;min-height:56px;cursor:pointer;border-bottom:1px solid {{ t.rule }}">
+<div style="flex:1">
+<div style="font-size:14px;font-weight:700">{{ t.label }}</div>
+<div style="font-size:11px;color:var(--color-neutral-700);margin-top:2px">{{ t.hint }}</div>
+</div>
+<div style="width:46px;height:28px;flex:none;border-radius:999px;padding:3px;display:flex;justify-content:{{ t.justify }};background:{{ t.trackBg }};transition:background .25s">
+<div style="width:22px;height:22px;border-radius:50%;background:var(--color-bg);box-shadow:var(--shadow-sm);transition:all .25s"></div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<sc-if value="{{ showPinSetup }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-surface);gap:10px;padding:18px">
+<span style="font-size:13px;font-weight:700">رمز چهار رقمی را تعیین کن</span>
+<input class="input" dir="ltr" value="{{ pinDraft }}" onChange="{{ onPinDraft }}" placeholder="۰۰۰۰" inputMode="numeric" maxLength="4" style="font-family:var(--font-body);font-size:18px;letter-spacing:8px;text-align:center;min-height:50px">
+<div role="button" tabindex="0" onClick="{{ savePin }}" class="btn btn-primary" style="min-height:44px;font-family:var(--font-body);font-size:13px">ذخیره‌ی رمز</div>
+</div>
+</sc-if>
+
+<div class="card" style="background:var(--color-accent-2-100);gap:10px;padding:18px">
+<span style="font-size:13px;font-weight:700;color:var(--color-accent-2-800)">هدف بلندمدت</span>
+<input class="input" dir="rtl" value="{{ goalInput }}" onChange="{{ onGoal }}" placeholder="مثلاً: سه ماه، هر روز یک قدم برای سلامتم" style="font-family:var(--font-body);font-size:14px;min-height:50px">
+<div style="font-size:11px;color:var(--color-accent-2-800);line-height:1.7">{{ goalHint }}</div>
+</div>
+
+<div class="card" style="background:var(--color-neutral-100);gap:10px;padding:18px">
+<span style="font-size:13px;font-weight:700">خروجی گرفتن</span>
+<div style="font-size:12px;color:var(--color-neutral-700);line-height:1.7">دفترچه‌ی {{ totalDaysFa }} روزِ گذشته را به‌صورت فایل متنی یا PDF بردار.</div>
+<div style="display:flex;gap:8px">
+<div class="btn btn-secondary" role="button" tabindex="0" onClick="{{ exportText }}" style="flex:1;min-height:44px;font-family:var(--font-body);font-size:13px">متن</div>
+<div class="btn btn-secondary" role="button" tabindex="0" onClick="{{ exportPdf }}" style="flex:1;min-height:44px;font-family:var(--font-body);font-size:13px">PDF</div>
+</div>
+</div>
+
+<div style="display:flex;gap:8px;justify-content:center">
+<div role="button" tabindex="0" onClick="{{ openOnb }}" class="btn btn-ghost" style="min-height:44px;font-family:var(--font-body);font-size:13px">دیدن دوباره‌ی معرفی</div>
+<div role="button" tabindex="0" onClick="{{ resetAll }}" class="btn btn-ghost" style="min-height:44px;font-family:var(--font-body);font-size:13px">پاک کردن داده‌ها</div>
+</div>
+<div style="font-size:11px;color:var(--color-neutral-700);text-align:center;line-height:1.8">نسخه ۱٫۰ · داده‌ها روی همین دستگاه می‌ماند</div>
+<div style="height:8px"></div>
+</div>
+</sc-if>
+
+</div>
+
+<!-- ══ تب‌بار ══ -->
+<div style="flex:none;display:flex;gap:4px;padding:8px 14px 34px;background:var(--color-surface);border-top:1px solid var(--color-divider)">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+<div role="button" tabindex="0" onClick="{{ t.go }}" style="flex:1;min-height:48px;border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;background:{{ t.bg }};transition:background .2s" style-hover="background:rgba(128,120,110,.14)">
+<div style="width:{{ t.dotW }}px;height:6px;border-radius:999px;background:{{ t.dot }};transition:all .2s"></div>
+<div style="font-size:11px;font-weight:{{ t.weight }};color:{{ t.fg }}">{{ t.label }}</div>
+</div>
+</sc-for>
+</div>
+
+<!-- ══ ثبت شبانه ══ -->
+<sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:80;background:rgba(32,30,29,.5);display:flex;flex-direction:column;justify-content:flex-end">
+<div style="background:var(--color-bg);border-radius:32px 32px 0 0;padding:22px 20px 40px;max-height:92%;overflow:auto;animation:sheetUp .32s cubic-bezier(.22,1,.36,1) both;box-shadow:var(--shadow-lg)">
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+<div style="display:flex;gap:6px">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+<div style="width:{{ s.w }}px;height:6px;border-radius:999px;background:{{ s.bg }};transition:all .3s"></div>
+</sc-for>
+</div>
+<div role="button" tabindex="0" onClick="{{ closeSheet }}" style="width:34px;height:34px;border-radius:50%;display:grid;place-items:center;cursor:pointer;background:var(--color-neutral-200);font-size:16px;color:var(--color-neutral-800)">×</div>
+</div>
+
+<sc-if value="{{ step1 }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:16px;animation:riseIn .3s ease both">
+<div>
+<h4 style="margin:0;font-size:20px">کار امروز انجام شد؟</h4>
+<div style="font-size:12px;color:var(--color-neutral-700);margin-top:4px">قراری که خودت گذاشتی این بود:</div>
+</div>
+<div class="card" style="background:var(--color-surface);padding:16px 18px">
+<div style="font-size:16px;font-weight:700;line-height:1.6">{{ todayTask }}</div>
+</div>
+<div style="display:flex;gap:10px">
+<div role="button" tabindex="0" onClick="{{ answerYes }}" class="btn btn-primary" style="flex:1;min-height:56px;font-family:var(--font-body);font-weight:700;font-size:15px">بله، انجام شد</div>
+<div role="button" tabindex="0" onClick="{{ answerNo }}" class="btn btn-secondary" style="flex:1;min-height:56px;font-family:var(--font-body);font-weight:700;font-size:15px">نه، نشد</div>
+</div>
+<div style="font-size:11px;color:var(--color-neutral-700);text-align:center;line-height:1.8">نشدنش هم داده است؛ زنجیره را می‌شکند، ولی از دفترچه حذف نمی‌شود.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:14px;animation:riseIn .3s ease both">
+<div>
+<h4 style="margin:0;font-size:20px">امروز چه کار خوبی کردی؟</h4>
+<div style="font-size:12px;color:var(--color-neutral-700);margin-top:4px">یک جمله کافی است، یا فقط یک ضربه بزن.</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ quickDeeds }}" as="q" hint-placeholder-count="4">
+<div role="button" tabindex="0" onClick="{{ q.pick }}" style="cursor:pointer;font-size:12px;padding:10px 14px;border-radius:999px;background:var(--color-neutral-100);border:1px solid var(--color-divider);color:var(--color-neutral-900)" style-hover="background:var(--color-neutral-200)">{{ q.label }}</div>
+</sc-for>
+</div>
+<textarea class="input" dir="rtl" value="{{ deedText }}" onChange="{{ onDeed }}" placeholder="مثلاً: به مادرم زنگ زدم و بیست دقیقه فقط گوش دادم." style="font-family:var(--font-body);font-size:14px;line-height:1.8;border-radius:22px;padding:14px 16px;min-height:92px"></textarea>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ deedCats }}" as="c" hint-placeholder-count="6">
+<div role="button" tabindex="0" onClick="{{ c.pick }}" class="tag" style="cursor:pointer;font-size:12px;padding:9px 15px;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.border }}">{{ c.label }}</div>
+</sc-for>
+</div>
+<sc-if value="{{ askScore }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:12px;color:var(--color-neutral-700)">چقدر از خودت راضی هستی؟</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ scores }}" as="s" hint-placeholder-count="5">
+<div role="button" tabindex="0" onClick="{{ s.pick }}" style="flex:1;min-height:48px;border-radius:18px;display:grid;place-items:center;cursor:pointer;font-size:16px;font-weight:700;background:{{ s.bg }};color:{{ s.fg }};border:1px solid {{ s.border }};transition:all .2s">{{ s.label }}</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div role="button" tabindex="0" onClick="{{ goStep3 }}" class="btn btn-primary" style="min-height:54px;font-family:var(--font-body);font-weight:700;font-size:15px;margin-top:4px">بعدی: حال و انرژی</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ step3 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:18px;animation:riseIn .3s ease both">
+<div>
+<h4 style="margin:0;font-size:20px">امروز حالت چطور بود؟</h4>
+<div style="font-size:12px;color:var(--color-neutral-700);margin-top:4px">دو ضربه؛ بعداً کنار نمودار کارها معنی پیدا می‌کند.</div>
+</div>
+<sc-for list="{{ gauges }}" as="g" hint-placeholder-count="2">
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="display:flex;justify-content:space-between;font-size:12px">
+<span style="font-weight:700">{{ g.label }}</span>
+<span style="color:var(--color-neutral-700)">{{ g.word }}</span>
+</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="5">
+<div role="button" tabindex="0" onClick="{{ o.pick }}" style="flex:1;height:{{ o.h }}px;align-self:flex-end;border-radius:14px;cursor:pointer;background:{{ o.bg }};border:1px solid {{ o.border }};transition:all .2s"></div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+<div role="button" tabindex="0" onClick="{{ goStep4 }}" class="btn btn-primary" style="min-height:54px;font-family:var(--font-body);font-weight:700;font-size:15px">بعدی: کار فردا</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ step4 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:14px;animation:riseIn .3s ease both">
+<div>
+<h4 style="margin:0;font-size:20px">{{ step4Title }}</h4>
+<div style="font-size:12px;color:var(--color-neutral-700);margin-top:4px">فقط یکی. آن‌قدر کوچک که حتماً انجام شود، آن‌قدر مهم که به آن فکر کنی.</div>
+</div>
+<input class="input" dir="rtl" value="{{ taskText }}" onChange="{{ onTask }}" placeholder="مثلاً: پیش‌نویس گزارش سه‌ماهه را تمام کنم." style="font-family:var(--font-body);font-size:15px;min-height:52px">
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ taskCats }}" as="c" hint-placeholder-count="6">
+<div role="button" tabindex="0" onClick="{{ c.pick }}" class="tag" style="cursor:pointer;font-size:12px;padding:9px 15px;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.border }}">{{ c.label }}</div>
+</sc-for>
+</div>
+<sc-if value="{{ hasGoal }}" hint-placeholder-val="{{ false }}">
+<div role="button" tabindex="0" onClick="{{ toggleLink }}" style="display:flex;align-items:center;gap:12px;padding:14px 16px;min-height:56px;border-radius:24px;cursor:pointer;background:var(--color-accent-2-100);border:1px solid {{ linkBorder }}">
+<div style="width:20px;height:20px;flex:none;border-radius:50%;border:2px solid var(--color-accent-2-600);background:{{ linkBg }}"></div>
+<div style="min-width:0">
+<div style="font-size:13px;font-weight:700;color:var(--color-accent-2-900)">به هدف فصل وصلش کن</div>
+<div style="font-size:11px;color:var(--color-accent-2-800);line-height:1.6">{{ goalTitle }}</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ hasInsights }}" hint-placeholder-val="{{ false }}">
+<div class="card" style="background:var(--color-accent-100);padding:14px 16px;gap:4px">
+<div style="font-size:12px;font-weight:700;color:var(--color-accent-800)">از الگوی خودت</div>
+<div role="button" tabindex="0" onClick="{{ useSuggest }}" style="font-size:13px;line-height:1.8;color:var(--color-accent-900);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ suggestBody }}</div>
+</div>
+</sc-if>
+<div role="button" tabindex="0" onClick="{{ finish }}" class="btn" style="min-height:54px;font-family:var(--font-body);font-weight:700;font-size:15px;background:{{ grad }};color:{{ onGrad }};box-shadow:{{ glow }};border:none">{{ step4Cta }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ step5 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:8px 6px 0;animation:popIn .35s cubic-bezier(.22,1,.36,1) both">
+<div style="width:96px;height:96px;border-radius:50%;background:{{ grad }};display:grid;place-items:center;box-shadow:{{ glow }}">
+<div style="font-size:34px;font-weight:800;color:{{ onGrad }}">{{ streakFa }}</div>
+</div>
+<h4 style="margin:0;font-size:20px">ثبت شد</h4>
+<div style="font-size:13px;line-height:1.9;color:var(--color-neutral-700);max-width:280px">{{ finishNote }}</div>
+<div class="card" style="background:var(--color-surface);padding:14px 16px;width:100%;gap:4px;text-align:right">
+<span class="card-kicker" style="font-size:10px">{{ nextKicker }}</span>
+<div style="font-size:15px;font-weight:700;line-height:1.6">{{ todayTask }}</div>
+</div>
+<div role="button" tabindex="0" onClick="{{ closeSheet }}" class="btn btn-primary btn-block" style="min-height:52px;font-family:var(--font-body);font-weight:700;font-size:15px">بستن</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+
+<!-- ══ آنبوردینگ ══ -->
+<sc-if value="{{ onbOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:90;background:var(--color-bg);display:flex;flex-direction:column;justify-content:flex-end;padding:70px 24px 40px;animation:riseIn .35s ease both">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px">
+<div style="width:96px;height:96px;border-radius:50%;background:{{ onb.blob }};display:grid;place-items:center">
+<div style="width:44px;height:44px;border-radius:{{ onb.shape }};background:{{ onb.mark }}"></div>
+</div>
+<div>
+<div style="font-size:11px;letter-spacing:.14em;color:var(--color-accent-700)">{{ onb.kicker }}</div>
+<h4 style="margin:8px 0 0;font-size:28px;line-height:1.35">{{ onb.title }}</h4>
+</div>
+<div style="font-size:14px;line-height:2;color:var(--color-neutral-700);max-width:300px;text-wrap:pretty">{{ onb.body }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="display:flex;gap:6px;flex:1">
+<sc-for list="{{ onbDots }}" as="d" hint-placeholder-count="3">
+<div style="width:{{ d.w }}px;height:6px;border-radius:999px;background:{{ d.bg }};transition:all .3s"></div>
+</sc-for>
+</div>
+<div role="button" tabindex="0" onClick="{{ onbSkip }}" class="btn btn-ghost" style="font-family:var(--font-body);font-size:13px;min-height:44px">رد کردن</div>
+<div role="button" tabindex="0" onClick="{{ onbNext }}" class="btn btn-primary" style="font-family:var(--font-body);font-weight:700;font-size:14px;min-height:48px;padding-inline:22px">{{ onb.cta }}</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-import>
+
+<p style="max-width:520px;margin:6px 0 0;font-size:12px;line-height:1.9;color:var(--color-neutral-700);text-align:center">چرخه‌ی ثبت چهار مرحله دارد: انجام‌شدن کار، کار خوب امروز، حال و انرژی، و قرار فردا. دایره‌ی کار امروز، ماه بالای صفحه (حالت شب)، تب‌ها و همه‌ی دکمه‌ها کار می‌کنند.</p>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:560,&quot;height&quot;:1120},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;today&quot;,&quot;stats&quot;,&quot;history&quot;,&quot;settings&quot;],&quot;default&quot;:&quot;today&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;نمایش&quot;},&quot;showSecondaryTasks&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;نمایش&quot;},&quot;askSatisfaction&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;چرخه ثبت&quot;}}">
+class Component extends DCLogic {
+  cats = [
+    { id: 'family', label: 'خانواده', color: 'var(--color-accent-700)', bg: 'var(--color-accent-100)', fg: 'var(--color-accent-800)' },
+    { id: 'kind', label: 'مهربانی', color: 'var(--color-accent-2-500)', bg: 'var(--color-accent-2-100)', fg: 'var(--color-accent-2-800)' },
+    { id: 'health', label: 'سلامت', color: 'var(--color-accent-500)', bg: 'var(--color-accent-200)', fg: 'var(--color-accent-800)' },
+    { id: 'work', label: 'کار', color: 'var(--color-neutral-600)', bg: 'var(--color-neutral-200)', fg: 'var(--color-neutral-900)' },
+    { id: 'learn', label: 'یادگیری', color: 'var(--color-accent-2-700)', bg: 'var(--color-accent-2-200)', fg: 'var(--color-accent-2-900)' },
+    { id: 'self', label: 'خودمراقبتی', color: 'var(--color-accent-400)', bg: 'var(--color-accent-100)', fg: 'var(--color-accent-800)' }
+  ];
+  quickPool = ['به کسی گوش دادم', 'کمک کردم', 'مراقب خودم بودم', 'سکوت کردم', 'دلگرمی دادم'];
+
+  moodWords = ['خیلی سنگین', 'سنگین', 'معمولی', 'خوب', 'سرحال'];
+  energyWords = ['ته‌کشیده', 'کم', 'متوسط', 'پرانرژی', 'خیلی پرانرژی'];
+  themes = [
+    { id: 'neon', label: 'نئون شبانه', dark: true,
+      grad: 'linear-gradient(135deg,#ff2e88,#7c5cff)', glow: '0 12px 34px rgba(255,46,136,.34)', onGrad: '#0b0b12',
+      p: { bg: '#0b0b12', surface: '#171726', text: '#f5f2ff', divider: 'rgba(245,242,255,.16)',
+        n1: '#131320', n2: '#1e1e30', n3: '#2c2c44', n4: '#46466c', n6: '#9494b8', n7: '#c0c0da', n8: '#dedeee', n9: '#f5f2ff',
+        ac: '#ff2e88', ac4: '#ff7db3', ac5: '#ff2e88', ac6: '#e01471', ac7: '#ff9ec6', a1: '#2a0f22', a2: '#3d1430', a8: '#ffb3d2', a9: '#ffd6e7',
+        b: '#7c5cff', b3: '#c2b1ff', b4: '#a48eff', b5: '#8a6dff', b6: '#6d4ceb', b7: '#cfc2ff', b1: '#191233', b2: '#241a4a', b8: '#cfc2ff', b9: '#e6dfff' } },
+    { id: 'ember', label: 'غروب آتشین', dark: true,
+      grad: 'linear-gradient(135deg,#ff6a3d,#ffc247)', glow: '0 12px 34px rgba(255,106,61,.32)', onGrad: '#180a06',
+      p: { bg: '#120809', surface: '#241111', text: '#fff2ea', divider: 'rgba(255,242,234,.18)',
+        n1: '#1a0c0c', n2: '#2b1616', n3: '#3d2020', n4: '#5e3630', n6: '#b08b7e', n7: '#d6b8ab', n8: '#ecd7cc', n9: '#fff2ea',
+        ac: '#ff6a3d', ac4: '#ff9670', ac5: '#ff6a3d', ac6: '#e64f22', ac7: '#ffb79c', a1: '#2e1208', a2: '#43190b', a8: '#ffc4aa', a9: '#ffe0d2',
+        b: '#ffc247', b3: '#ffe6ae', b4: '#ffd275', b5: '#ffc247', b6: '#e0a52a', b7: '#ffe4ad', b1: '#2c2008', b2: '#3f2d0c', b8: '#ffe4ad', b9: '#fff3d8' } },
+    { id: 'emerald', label: 'زمرد شب', dark: true,
+      grad: 'linear-gradient(135deg,#14d992,#35c8ff)', glow: '0 12px 34px rgba(20,217,146,.30)', onGrad: '#03100d',
+      p: { bg: '#04100e', surface: '#0d211d', text: '#e8fff8', divider: 'rgba(232,255,248,.18)',
+        n1: '#081815', n2: '#10251f', n3: '#18342d', n4: '#2c5548', n6: '#75a79b', n7: '#a6cec2', n8: '#cdeae0', n9: '#e8fff8',
+        ac: '#14d992', ac4: '#63e9b9', ac5: '#14d992', ac6: '#0bb87a', ac7: '#a9f2d5', a1: '#052a1f', a2: '#073b2c', a8: '#a9f2d5', a9: '#d3f9e9',
+        b: '#35c8ff', b3: '#9be2ff', b4: '#6ad5ff', b5: '#35c8ff', b6: '#14a4da', b7: '#b4e6ff', b1: '#062430', b2: '#0a3646', b8: '#b4e6ff', b9: '#d9f4ff' } },
+    { id: 'cream', label: 'کرمی روز', dark: false,
+      grad: 'linear-gradient(135deg,#c67139,#7a8a5e)', glow: '0 3px 10px rgba(46,43,37,.16)', onGrad: '#f5ead8',
+      p: { bg: '#f5ead8', surface: '#ebddc5', text: '#201e1d', divider: 'rgba(32,30,29,.16)',
+        n1: '#f9f4ed', n2: '#eee7db', n3: '#dcd3c4', n4: '#c0b6a5', n6: '#82796a', n7: '#645c50', n8: '#474238', n9: '#2e2b25',
+        ac: '#c67139', ac4: '#f6a06b', ac5: '#d67f48', ac6: '#b2622d', ac7: '#8c491a', a1: '#fff2eb', a2: '#ffe1d0', a8: '#643312', a9: '#402310',
+        b: '#7a8a5e', b3: '#ccdbb2', b4: '#aebf92', b5: '#8fa073', b6: '#728157', b7: '#56633f', b1: '#f0fae1', b2: '#e1eecc', b8: '#3d472b', b9: '#272e1b' } }
+  ];
+  quotes = [
+    'امروز فقط یک کار. همان یکی را بِبَر.',
+    'زنجیره را نشکن؛ هر شب یک حلقه اضافه کن.',
+    'کوچک شروع کن، ولی امروز شروع کن.',
+    'کسی که دیشب تصمیم گرفت، به تو اعتماد کرد.',
+    'کارِ سخت را اول بزن؛ بقیه‌ی روز مال خودت.',
+    'یک کار خوب، یک کار مهم. همین کافی است.'
+  ];
+  _s = 88134;
+  rnd() { this._s = (this._s * 1103515245 + 12345) % 2147483648; return this._s / 2147483648; }
+  fa(n) { return String(n).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[+d]); }
+  cat(id) { return this.cats.find(c => c.id === id) || this.cats[0]; }
+  faDate(d, long) {
+    try {
+      return new Intl.DateTimeFormat('fa-IR-u-ca-persian', long ? { day: 'numeric', month: 'long', year: 'numeric' } : { day: 'numeric', month: 'long' }).format(d);
+    } catch (e) { return d.toLocaleDateString(); }
+  }
+  faPart(d, opt) {
+    try { return new Intl.DateTimeFormat('fa-IR-u-ca-persian', opt).format(d); } catch (e) { return ''; }
+  }
+  faWeekday(d) {
+    try { return new Intl.DateTimeFormat('fa-IR', { weekday: 'long' }).format(d); } catch (e) { return ''; }
+  }
+  buildDays() {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return [{ date: now, task: '', cat: null, done: false, deed: null, deedCat: null, score: 0, mood: 0, energy: 0, linked: false, logged: false }];
+  }
+  KEY = 'yekkar.state.v2';
+  loadSaved() {
+    try {
+      const raw = window.localStorage.getItem(this.KEY);
+      if (!raw) return null;
+      const s = JSON.parse(raw);
+      if (!s || !Array.isArray(s.days)) return null;
+      s.days = s.days.map(d => Object.assign({}, d, { date: new Date(d.date) }));
+      return s;
+    } catch (e) { return null; }
+  }
+  persist() {
+    try {
+      const s = this.state;
+      window.localStorage.setItem(this.KEY, JSON.stringify({
+        days: s.days.map(d => Object.assign({}, d, { date: d.date.toISOString() })),
+        minors: s.minors, goal: s.goal, settings: s.settings, theme: s.theme, onb: false, pin: s.pin
+      }));
+    } catch (e) {}
+  }
+  initialState() {
+    const base = {
+      tab: 'today', days: this.buildDays(), sheet: false, step: 1, firstTask: false, onb: true, onbStep: 0, theme: 0,
+      minors: [], goal: '',
+      draft: { done: null, deed: '', deedCat: null, score: 4, mood: 4, energy: 3, task: '', taskCat: null, linked: false },
+      settings: { morning: true, night: true, weekly: true, insight: true, lock: false },
+      pin: '', pinDraft: '', pinAttempt: '', pinError: false, locked: false
+    };
+    const saved = this.loadSaved();
+    if (saved) saved.locked = !!(saved.settings && saved.settings.lock && saved.pin);
+    return saved ? Object.assign(base, saved) : base;
+  }
+  state = this.initialState();
+  componentDidMount() {
+    const s = this.props.startScreen;
+    if (s && s !== this.state.tab) this.setState({ tab: s, onb: false });
+  }
+  componentDidUpdate() { this.persist(); }
+  today() { return this.state.days[this.state.days.length - 1]; }
+  streak() {
+    let n = 0;
+    for (let i = this.state.days.length - 1; i >= 0; i--) {
+      const d = this.state.days[i];
+      if (!d.logged && !d.done) continue;
+      if (d.done) n++; else break;
+    }
+    return n;
+  }
+  setDraft(k, v) { this.setState(s => ({ draft: Object.assign({}, s.draft, { [k]: v }) })); }
+  renderVals() {
+    const st = this.state, days = st.days, t = this.today(), tc = this.cat(t.cat);
+    const T = this.themes[st.theme] || this.themes[0], th = T.p, dark = T.dark;
+    const qi = (new Date().getDate() + (st.theme || 0)) % this.quotes.length;
+    const streak = this.streak();
+    const logged = days.filter(d => d.logged);
+    const last = logged[logged.length - 1] || { deed: '', date: t.date, deedCat: null, score: 0 };
+    const doneRate = logged.length ? Math.round(logged.filter(d => d.done).length / logged.length * 100) : 0;
+    const goalTitle = (st.goal || '').trim();
+    const linkedDays = logged.filter(d => d.linked);
+    const goalPct = linkedDays.length ? Math.round(linkedDays.filter(d => d.done).length / linkedDays.length * 100) : 0;
+    let best = 0, run = 0;
+    logged.forEach(d => { if (d.done) { run++; best = Math.max(best, run); } else run = 0; });
+    const scored = logged.filter(d => d.score > 0);
+    const avg = scored.reduce((a, d) => a + d.score, 0) / Math.max(scored.length, 1);
+    const hasData = logged.length > 0;
+    const hasInsights = logged.length >= 7;
+    const kindCount = logged.filter(d => d.deedCat === 'kind').length;
+
+    const bars = days.slice(-14).map(d => ({
+      label: this.faWeekday(d.date).slice(0, 1),
+      h: d.logged ? (d.done ? 20 + d.score * 12 : 12) : 10,
+      bg: d.logged ? (d.done ? 'var(--color-accent-500)' : 'var(--color-neutral-300)') : 'rgba(128,120,110,.2)'
+    }));
+    const last14 = days.slice(-14);
+    const mAvg = k => {
+      const v = last14.filter(d => d[k] > 0);
+      return (v.reduce((a, d) => a + d[k], 0) / Math.max(v.length, 1)).toFixed(1);
+    };
+    const moodRows = [
+      { label: 'حال', avg: this.fa(mAvg('mood')), color: 'var(--color-accent-400)' },
+      { label: 'انرژی', avg: this.fa(mAvg('energy')), color: 'var(--color-accent-2-500)' }
+    ].map((r, i) => Object.assign(r, {
+      cells: last14.map(d => {
+        const v = i === 0 ? d.mood : d.energy;
+        return { h: v ? 20 + v * 16 : 8, bg: v ? r.color : 'rgba(128,120,110,.2)' };
+      })
+    }));
+
+    const heatBg = d => !d.logged ? 'rgba(128,120,110,.16)' : !d.done ? 'var(--color-neutral-300)' : d.score >= 5 ? 'var(--color-accent-2-600)' : d.score >= 4 ? 'var(--color-accent-2-400)' : 'var(--color-accent-2-300)';
+    const heat = [];
+    for (let w = 0; w < 10; w++) {
+      const chunk = days.slice(w * 7, w * 7 + 7);
+      heat.push({
+        label: 'ه‍ ' + this.fa(10 - w),
+        cells: chunk.map(d => ({ bg: heatBg(d), title: this.faDate(d.date) + (d.done ? ' — انجام شد' : ' — انجام نشد') }))
+      });
+    }
+
+    const counts = {};
+    logged.forEach(d => { if (d.deedCat) counts[d.deedCat] = (counts[d.deedCat] || 0) + 1; });
+    const maxC = Math.max.apply(null, Object.values(counts).concat([1]));
+    const catBars = this.cats.map(c => ({
+      label: c.label, color: c.color, count: this.fa(counts[c.id] || 0) + ' بار',
+      pct: Math.round((counts[c.id] || 0) / maxC * 100)
+    })).sort((a, b) => b.pct - a.pct);
+
+    const averages = [];
+    for (let w = 3; w >= 0; w--) {
+      const chunk = days.slice(days.length - 7 * (w + 1), days.length - 7 * w).filter(d => d.logged);
+      const rate = Math.round(chunk.filter(d => d.done).length / Math.max(chunk.length, 1) * 100);
+      averages.push({
+        label: w === 0 ? 'این هفته' : this.fa(w) + ' هفته پیش',
+        value: this.fa(rate) + '٪ · ' + this.fa(chunk.filter(d => d.done).length) + ' از ' + this.fa(chunk.length),
+        pct: rate, color: 'var(--color-accent-500)', fg: 'var(--color-text)'
+      });
+    }
+    const m30 = logged.slice(-30);
+    averages.push({
+      label: 'میانگین ۳۰ روز',
+      value: this.fa(Math.round(m30.filter(d => d.done).length / m30.length * 100)) + '٪',
+      pct: Math.round(m30.filter(d => d.done).length / m30.length * 100),
+      color: 'var(--color-accent-2-600)', fg: 'var(--color-accent-2-800)'
+    });
+
+    const wk = days.slice(-7);
+    const weekDots = wk.map(d => ({
+      label: this.faWeekday(d.date).slice(0, 1),
+      bg: !d.logged ? 'transparent' : d.done ? 'var(--color-accent-2-500)' : 'var(--color-accent-2-200)',
+      border: d.logged ? 'transparent' : 'var(--color-accent-2-500)'
+    }));
+
+    const badgeDefs = [
+      ['هفت روز پیوسته', best >= 7, 'زنجیره‌ی ۷ روزه', '۷'],
+      ['سی روز پیوسته', best >= 30, this.fa(best) + ' از ۳۰ روز', '۳۰'],
+      ['پنجاه کار خوب', logged.length >= 50, this.fa(logged.length) + ' کار ثبت شده', '۵۰'],
+      ['هفته‌ی مهربانی', kindCount >= 7, this.fa(kindCount) + ' کار در دسته‌ی مهربانی', 'م'],
+      ['دفترچه‌نویس', logged.length >= 60, this.fa(logged.length) + ' روز نوشتن', 'د'],
+      ['ماه بی‌خط‌خوردگی', best >= 30, 'یک ماه کامل بدون شکست', 'ماه']
+    ];
+    const badges = badgeDefs.map(b => ({
+      label: b[0], sub: b[2], mark: b[3],
+      bg: b[1] ? 'var(--color-accent-2-100)' : 'transparent',
+      border: b[1] ? 'transparent' : 'var(--color-divider)',
+      dot: b[1] ? 'var(--color-accent-2-600)' : 'var(--color-neutral-300)',
+      dotFg: b[1] ? 'var(--color-bg)' : 'var(--color-neutral-700)',
+      fg: b[1] ? 'var(--color-accent-2-900)' : 'var(--color-neutral-800)',
+      op: b[1] ? 1 : 0.6
+    }));
+
+    const monthDays = logged.filter(d => this.faPart(d.date, { month: 'long' }) === this.faPart(t.date, { month: 'long' }));
+    const firstW = monthDays.length ? monthDays[0].date.getDay() : 0;
+    const calendar = [];
+    for (let i = 0; i < (firstW + 1) % 7; i++) calendar.push({ day: '', bg: 'transparent', fg: 'transparent', border: 'transparent' });
+    days.filter(d => this.faPart(d.date, { month: 'long' }) === this.faPart(t.date, { month: 'long' })).forEach(d => {
+      calendar.push({
+        day: this.faPart(d.date, { day: 'numeric' }),
+        bg: !d.logged ? 'transparent' : d.done ? 'var(--color-accent-500)' : 'var(--color-neutral-200)',
+        fg: !d.logged ? 'var(--color-neutral-700)' : d.done ? 'var(--color-bg)' : 'var(--color-neutral-800)',
+        border: d.logged ? 'transparent' : 'var(--color-accent)'
+      });
+    });
+
+    const chipStyle = (c, sel) => ({
+      label: c.label,
+      bg: sel ? c.color : 'transparent',
+      fg: sel ? 'var(--color-bg)' : 'var(--color-neutral-900)',
+      border: sel ? c.color : 'var(--color-divider)'
+    });
+    const gauge = (key, words, color) => ({
+      label: key === 'mood' ? 'حال' : 'انرژی',
+      word: words[st.draft[key] - 1] || '—',
+      opts: [1, 2, 3, 4, 5].map(n => ({
+        h: 22 + n * 9,
+        bg: st.draft[key] >= n ? color : 'transparent',
+        border: st.draft[key] >= n ? color : 'var(--color-divider)',
+        pick: () => this.setDraft(key, n)
+      }))
+    });
+
+    const onbSlides = [
+      { kicker: 'یک کار', title: 'هر شب، فقط یک قرار برای فردا', body: 'به‌جای فهرست بلند، یک کار مهم انتخاب می‌کنی. صبح تصمیمی نداری؛ از قبل گرفته‌ای.', blob: 'var(--color-accent-200)', mark: 'var(--color-accent-600)', shape: '50%', cta: 'بعدی' },
+      { kicker: 'یک کار خوب', title: 'شب، کار خوب امروز را ثبت کن', body: 'یک جمله بنویس یا فقط دسته‌اش را بزن. حال و انرژی‌ات را هم با دو ضربه ثبت می‌کنی.', blob: 'var(--color-accent-2-200)', mark: 'var(--color-accent-2-600)', shape: '40% 60% 55% 45%', cta: 'بعدی' },
+      { kicker: 'نمودار', title: 'بعد از دو هفته، الگویت را می‌بینی', body: 'زنجیره، دسته‌ی کارهای خوب، حال و انرژی، و بازتابی که از نوشته‌های خودت ساخته می‌شود.', blob: 'var(--color-neutral-200)', mark: 'var(--color-accent)', shape: '30%', cta: 'شروع' }
+    ];
+    const onb = onbSlides[st.onbStep];
+
+    const sets = st.settings;
+    const tog = k => () => this.setState(s => {
+      const settings = Object.assign({}, s.settings, { [k]: !s.settings[k] });
+      return k === 'lock' && !settings.lock ? { settings, pin: '', pinDraft: '' } : { settings };
+    });
+    const togDefs = [
+      ['morning', 'یادآوری صبح · ۷:۳۰', 'کار مهم امروز را نشان می‌دهد'],
+      ['night', 'یادآوری شب · ۲۲:۰۰', 'اگر امروز ثبت نکرده‌ای'],
+      ['weekly', 'مرور هفتگی جمعه‌ها', 'خلاصه‌ی هفت روز گذشته'],
+      ['insight', 'بازتاب از نوشته‌ها', 'الگوها را روی دستگاه پیدا می‌کند'],
+      ['lock', 'قفل با رمز دستگاه', 'دفترچه خصوصی می‌ماند']
+    ];
+    const tabDefs = [['today', 'امروز'], ['stats', 'نمودار'], ['history', 'تاریخچه'], ['settings', 'تنظیمات']];
+
+    return {
+      th, isDark: dark,
+      grad: T.grad, glow: T.glow, onGrad: T.onGrad, themeLabel: T.label,
+      quote: this.quotes[qi],
+      cycleTheme: () => this.setState(s => ({ theme: ((s.theme || 0) + 1) % this.themes.length })),
+      themeChips: this.themes.map((x, i) => ({
+        label: x.label, grad: x.grad,
+        bg: i === st.theme ? 'var(--color-accent-100)' : 'transparent',
+        border: i === st.theme ? 'var(--color-accent)' : 'var(--color-divider)',
+        fg: i === st.theme ? 'var(--color-accent-800)' : 'var(--color-neutral-800)',
+        pick: () => this.setState({ theme: i })
+      })),
+      isToday: st.tab === 'today', isStats: st.tab === 'stats', isHistory: st.tab === 'history', isSettings: st.tab === 'settings',
+      showSecondary: this.props.showSecondaryTasks !== false && st.minors.length > 0,
+      askScore: this.props.askSatisfaction !== false,
+      weekdayLabel: this.faWeekday(t.date),
+      greeting: t.done ? 'انجام شد.' : 'یک کار، همین امروز',
+      dateLabel: this.faDate(t.date, true),
+      streakFa: this.fa(streak),
+      ringPct: Math.min(100, Math.round(streak / 30 * 100)),
+      todayTask: t.task, todayCatLabel: tc.label, todayCatBg: tc.bg, todayCatFg: tc.fg,
+      taskLinked: !!t.linked,
+      taskColor: t.done ? 'var(--color-neutral-700)' : 'var(--color-text)',
+      taskDeco: t.done ? 'line-through' : 'none',
+      taskHint: t.done ? 'ثبت شد. هر وقت خواستی کار خوب امروز را هم بنویس.' : 'این را خودت انتخاب کردی. فقط همین یکی.',
+      step4Title: (t.task || '').trim() ? 'مهم‌ترین کار فردا' : 'اولین کار مهمت',
+      step4Cta: (t.task || '').trim() ? 'قرارِ فردا را ببند' : 'همین را قرار بگذار',
+      nextKicker: st.firstTask ? 'قرارِ امروز' : 'قرارِ فردا',
+      checkBorder: t.done ? 'var(--color-accent-600)' : 'var(--color-neutral-400)',
+      checkBg: t.done ? 'var(--color-accent-600)' : 'transparent',
+      checkMark: t.done ? 'var(--color-bg)' : 'var(--color-neutral-400)',
+      toggleDone: () => this.setState(s => {
+        const d = s.days.slice(); d[d.length - 1] = Object.assign({}, d[d.length - 1], { done: !d[d.length - 1].done });
+        return { days: d };
+      }),
+      minors: st.minors.map((m, i) => ({
+        text: m.text, bg: m.done ? 'var(--color-neutral-200)' : 'transparent',
+        fg: m.done ? 'var(--color-neutral-700)' : 'var(--color-text)',
+        deco: m.done ? 'line-through' : 'none',
+        dotBorder: m.done ? 'var(--color-accent-2-600)' : 'var(--color-neutral-400)',
+        dotBg: m.done ? 'var(--color-accent-2-600)' : 'transparent',
+        toggle: () => this.setState(s => { const n = s.minors.slice(); n[i] = { text: n[i].text, done: !n[i].done }; return { minors: n }; })
+      })),
+      hasTask: !!(t.task || '').trim(), noTask: !(t.task || '').trim(),
+      hasData, noData: !hasData, hasInsights,
+      hasGoal: !!goalTitle, goalTitle,
+      goalInput: st.goal || '', onGoal: e => this.setState({ goal: e.target.value }),
+      goalHint: goalTitle ? (linkedDays.length ? 'از ' + this.fa(linkedDays.length) + ' کارِ وصل‌شده، ' + this.fa(linkedDays.filter(d => d.done).length) + ' تا انجام شده.' : 'هنوز کاری به این هدف وصل نشده.') : 'یک هدف بنویس تا بتوانی کارهای روزانه را به آن وصل کنی.',
+      goalNote: linkedDays.length ? 'از ' + this.fa(linkedDays.length) + ' کارِ وصل‌شده به این هدف، ' + this.fa(linkedDays.filter(d => d.done).length) + ' تا انجام شده.' : 'اولین کارت را به این هدف وصل کن.',
+      goalPct, goalPctFa: this.fa(goalPct) + '٪',
+      weekDots,
+      weekSummary: this.fa(wk.filter(d => d.done).length) + ' از ' + this.fa(wk.length) + ' روز',
+      lastDeed: last.deed || '',
+      lastDeedMeta: hasData ? this.faDate(last.date) + ' · ' + this.cat(last.deedCat).label + ' · رضایت ' + this.fa(last.score) + ' از ۵' : '',
+      ctaLabel: !(t.task || '').trim() ? 'اولین کار مهم را تعیین کن' : (t.logged ? 'امروز ثبت شد ✓' : 'ثبت امروز و قرار فردا'),
+      openSheet: () => this.setState(s => ({ sheet: true, step: (s.days[s.days.length - 1].task || '').trim() ? 1 : 4 })),
+      closeSheet: () => this.setState({ sheet: false }),
+      sheetOpen: st.sheet,
+      step1: st.step === 1, step2: st.step === 2, step3: st.step === 3, step4: st.step === 4, step5: st.step === 5,
+      steps: [1, 2, 3, 4].map(i => ({ w: st.step >= i ? 24 : 12, bg: st.step >= i ? 'var(--color-accent)' : 'var(--color-neutral-300)' })),
+      answerYes: () => { this.setDraft('done', true); this.setState({ step: 2 }); },
+      answerNo: () => { this.setDraft('done', false); this.setState({ step: 2 }); },
+      deedText: st.draft.deed, onDeed: e => this.setDraft('deed', e.target.value),
+      taskText: st.draft.task, onTask: e => this.setDraft('task', e.target.value),
+      quickDeeds: this.quickPool.map(q => ({ label: q, pick: () => this.setDraft('deed', q + '.') })),
+      deedCats: this.cats.map(c => Object.assign(chipStyle(c, st.draft.deedCat === c.id), { pick: () => this.setDraft('deedCat', c.id) })),
+      taskCats: this.cats.map(c => Object.assign(chipStyle(c, st.draft.taskCat === c.id), { pick: () => this.setDraft('taskCat', c.id) })),
+      scores: [1, 2, 3, 4, 5].map(n => ({
+        label: this.fa(n),
+        bg: st.draft.score === n ? 'var(--color-accent-500)' : 'transparent',
+        fg: st.draft.score === n ? 'var(--color-bg)' : 'var(--color-neutral-800)',
+        border: st.draft.score === n ? 'var(--color-accent-500)' : 'var(--color-divider)',
+        pick: () => this.setDraft('score', n)
+      })),
+      gauges: [gauge('mood', this.moodWords, 'var(--color-accent-400)'), gauge('energy', this.energyWords, 'var(--color-accent-2-500)')],
+      goStep3: () => this.setState({ step: 3 }),
+      goStep4: () => this.setState({ step: 4 }),
+      toggleLink: () => this.setDraft('linked', !st.draft.linked),
+      linkBg: st.draft.linked ? 'var(--color-accent-2-600)' : 'transparent',
+      linkBorder: st.draft.linked ? 'var(--color-accent-2-600)' : 'var(--color-divider)',
+      suggestBody: hasInsights ? 'ضعیف‌ترین دسته‌ات «' + (catBars[catBars.length - 1] ? catBars[catBars.length - 1].label : '—') + '» است. فردا یکی از همان دسته بگذار.' : '',
+      useSuggest: () => {},
+      finish: () => this.setState(s => {
+        const d = s.days.slice(), i = d.length - 1, cur = d[i];
+        if (!(cur.task || '').trim()) {
+          d[i] = Object.assign({}, cur, {
+            task: s.draft.task.trim() || 'یک کار کوچک برای خودم',
+            cat: s.draft.taskCat || 'self', linked: s.draft.linked
+          });
+          return { days: d, step: 5, firstTask: true, draft: { done: null, deed: '', deedCat: null, score: 4, mood: 4, energy: 3, task: '', taskCat: null, linked: false } };
+        }
+        d[i] = Object.assign({}, cur, {
+          done: s.draft.done === null ? cur.done : s.draft.done,
+          deed: s.draft.deed.trim() || 'امروز فقط سرِ پا ماندم؛ همین هم کم نبود.',
+          deedCat: s.draft.deedCat || 'self', score: s.draft.score,
+          mood: s.draft.mood, energy: s.draft.energy, logged: true
+        });
+        const nd = new Date(cur.date); nd.setDate(cur.date.getDate() + 1);
+        d.push({
+          date: nd, task: s.draft.task.trim() || 'یک کار کوچک برای خودم', cat: s.draft.taskCat || 'self',
+          done: false, deed: null, deedCat: null, score: 0, mood: 0, energy: 0, linked: s.draft.linked, logged: false
+        });
+        return { days: d, step: 5, firstTask: false, draft: { done: null, deed: '', deedCat: null, score: 4, mood: 4, energy: 3, task: '', taskCat: null, linked: false } };
+      }),
+      finishNote: hasData ? 'زنجیره‌ات ' + this.fa(streak) + ' روز است و امروز هم ثبت شد. فردا فقط یک تصمیم داری، و از قبل گرفته‌ای.' : 'شروع شد. یک کار، همین یکی — و امشب اولین حلقه‌ی زنجیره‌ات بسته می‌شود.',
+      onbOpen: st.onb, onb, onbDots: onbSlides.map((s, i) => ({ w: i === st.onbStep ? 24 : 8, bg: i === st.onbStep ? 'var(--color-accent)' : 'var(--color-neutral-300)' })),
+      onbNext: () => this.setState(s => s.onbStep >= 2 ? { onb: false, onbStep: 0 } : { onbStep: s.onbStep + 1 }),
+      onbSkip: () => this.setState({ onb: false, onbStep: 0 }),
+      openOnb: () => this.setState({ onb: true, onbStep: 0 }),
+      isLocked: st.locked,
+      showPinSetup: sets.lock && !st.pin,
+      pinDraft: st.pinDraft, onPinDraft: e => this.setState({ pinDraft: e.target.value.replace(/[^0-9]/g, '').slice(0, 4) }),
+      savePin: () => { if (st.pinDraft.length === 4) this.setState({ pin: st.pinDraft, pinDraft: '' }); },
+      pinAttempt: st.pinAttempt, onPinAttempt: e => this.setState({ pinAttempt: e.target.value.replace(/[^0-9]/g, '').slice(0, 4), pinError: false }),
+      pinError: st.pinError,
+      tryUnlock: () => this.setState(s => s.pinAttempt === s.pin ? { locked: false, pinAttempt: '' } : { pinError: true }),
+      exportText: () => {
+        const lines = logged.slice().reverse().map(d =>
+          this.faDate(d.date) + '\n' + (d.done ? 'انجام شد' : 'انجام نشد') + ': ' + d.task +
+          '\nکار خوب: ' + (d.deed || '—') + '\n'
+        );
+        const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'قرار-فردا-دفترچه.txt';
+        document.body.appendChild(a); a.click(); a.remove();
+      },
+      exportPdf: () => window.print(),
+      resetAll: () => {
+        try { window.localStorage.removeItem(this.KEY); } catch (e) {}
+        this.setState({ days: this.buildDays(), minors: [], goal: '', tab: 'today', onb: true, onbStep: 0, sheet: false, step: 1 });
+      },
+      kpis: [
+        { value: this.fa(streak), label: 'زنجیره‌ی فعلی', bg: 'var(--color-accent-100)', fg: 'var(--color-accent-800)' },
+        { value: this.fa(best), label: 'بهترین زنجیره', bg: 'var(--color-accent-2-100)', fg: 'var(--color-accent-2-800)' },
+        { value: this.fa(doneRate) + '٪', label: 'نرخ انجام', bg: 'var(--color-neutral-100)', fg: 'var(--color-neutral-900)' }
+      ],
+      bars, heat, moodRows, averages, badges, calendar,
+      monthLabel: this.faPart(t.date, { month: 'long', year: 'numeric' }),
+      monthSummary: this.fa(monthDays.filter(d => d.done).length) + ' روزِ انجام‌شده',
+      legend: [{ bg: 'rgba(128,120,110,.16)' }, { bg: 'var(--color-accent-2-300)' }, { bg: 'var(--color-accent-2-400)' }, { bg: 'var(--color-accent-2-600)' }],
+      catBars,
+      insights: hasInsights ? [
+        { text: 'نرخ انجامت در ' + this.fa(logged.length) + ' روز گذشته ' + this.fa(doneRate) + '٪ بوده.' },
+        { text: 'میانگین رضایتت از کارهای خوب ' + this.fa(avg.toFixed(1)) + ' از ۵ است.' },
+        { text: 'بیشترین کار خوبت در دسته‌ی «' + (catBars[0] ? catBars[0].label : '—') + '» ثبت شده.' }
+      ] : [],
+      review: hasData ? 'در ' + this.fa(logged.length) + ' روز گذشته ' + this.fa(logged.filter(d => d.done).length) + ' کار مهم را انجام دادی و میانگین رضایتت ' + this.fa(avg.toFixed(1)) + ' از ۵ بود. بیشترین کار خوبت در دسته‌ی «' + catBars[0].label + '» بوده.' : '',
+      history: logged.slice().reverse().slice(0, 14).map(d => ({
+        date: this.faWeekday(d.date) + ' · ' + this.faDate(d.date),
+        task: d.task, deed: d.deed,
+        status: d.done ? 'انجام شد' : 'انجام نشد',
+        tagBg: d.done ? 'var(--color-accent-2-200)' : 'var(--color-neutral-200)',
+        tagFg: d.done ? 'var(--color-accent-2-900)' : 'var(--color-neutral-900)',
+        taskFg: d.done ? 'var(--color-text)' : 'var(--color-neutral-700)',
+        bg: d.done ? 'var(--color-surface)' : 'var(--color-neutral-100)',
+        deedColor: this.cat(d.deedCat).color,
+        meta: this.cat(d.deedCat).label + ' · رضایت ' + this.fa(d.score) + ' · حال ' + this.fa(d.mood) + ' · انرژی ' + this.fa(d.energy)
+      })),
+      totalDaysFa: this.fa(logged.length),
+      toggles: togDefs.map((d, i) => ({
+        label: d[1], hint: d[2], toggle: tog(d[0]),
+        justify: sets[d[0]] ? 'flex-end' : 'flex-start',
+        trackBg: sets[d[0]] ? 'var(--color-accent-600)' : 'var(--color-neutral-400)',
+        rule: i === togDefs.length - 1 ? 'transparent' : 'var(--color-divider)'
+      })),
+      tabs: tabDefs.map(d => ({
+        label: d[1], go: () => this.setState({ tab: d[0] }),
+        bg: st.tab === d[0] ? 'var(--color-bg)' : 'transparent',
+        dot: st.tab === d[0] ? 'var(--color-accent)' : 'var(--color-neutral-400)',
+        dotW: st.tab === d[0] ? 18 : 6,
+        fg: st.tab === d[0] ? 'var(--color-text)' : 'var(--color-neutral-700)',
+        weight: st.tab === d[0] ? 700 : 400
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
