@@ -1087,9 +1087,11 @@ class Component extends DCLogic {
         try {
           const parsed = JSON.parse(st.importDraft.trim());
           if (!parsed || !Array.isArray(parsed.days)) throw new Error();
-          window.localStorage.setItem(this.KEY, st.importDraft.trim());
-          this.setState({ importMsg: 'انجام شد؛ صفحه در حال بازخوانی…' });
-          setTimeout(() => window.location.reload(), 600);
+          parsed.days = parsed.days.map(d => Object.assign({}, d, { date: new Date(d.date) }));
+          this.setState(Object.assign({}, parsed, { importMsg: 'انجام شد؛ صفحه در حال بازخوانی…', importDraft: '' }), () => {
+            this.persist();
+            setTimeout(() => window.location.reload(), 600);
+          });
         } catch (e) { this.setState({ importMsg: 'کد نامعتبر است.' }); }
       },
       resetAll: () => {
