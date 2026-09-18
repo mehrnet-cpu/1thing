@@ -482,6 +482,23 @@ a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-800)}
 </div>
 </sc-if>
 
+<div class="card" style="background:var(--color-surface);gap:12px;padding:18px">
+<span style="font-size:13px;font-weight:700">مدیریت تگ‌ها</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ tagList }}" as="tg" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:8px;padding:8px 8px 8px 12px;border-radius:999px;background:var(--color-neutral-100);border:1px solid var(--color-divider)">
+<div style="width:10px;height:10px;border-radius:50%;background:{{ tg.dot }}"></div>
+<span style="font-size:12px">{{ tg.label }}</span>
+<div role="button" tabindex="0" onClick="{{ tg.remove }}" style="width:20px;height:20px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--color-neutral-600);font-size:12px">×</div>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:8px">
+<input class="input" dir="rtl" value="{{ tagDraft }}" onChange="{{ onTagDraft }}" placeholder="نام تگ جدید، مثلاً: مالی" style="flex:1;font-family:var(--font-body);font-size:13px;min-height:44px">
+<div role="button" tabindex="0" onClick="{{ addTag }}" class="btn btn-secondary" style="min-height:44px;padding-inline:18px;font-family:var(--font-body);font-size:13px">افزودن</div>
+</div>
+</div>
+
 <div class="card" style="background:var(--color-accent-2-100);gap:10px;padding:18px">
 <span style="font-size:13px;font-weight:700;color:var(--color-accent-2-800)">هدف بلندمدت</span>
 <input class="input" dir="rtl" value="{{ goalInput }}" onChange="{{ onGoal }}" placeholder="مثلاً: سه ماه، هر روز یک قدم برای سلامتم" style="font-family:var(--font-body);font-size:14px;min-height:50px">
@@ -701,7 +718,7 @@ a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-800)}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:560,&quot;height&quot;:1120},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;today&quot;,&quot;stats&quot;,&quot;history&quot;,&quot;settings&quot;],&quot;default&quot;:&quot;today&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;نمایش&quot;},&quot;showSecondaryTasks&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;نمایش&quot;},&quot;askSatisfaction&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;چرخه ثبت&quot;}}">
 class Component extends DCLogic {
-  cats = [
+  defaultCats = [
     { id: 'family', label: 'خانواده', color: 'var(--color-accent-700)', bg: 'var(--color-accent-100)', fg: 'var(--color-accent-800)' },
     { id: 'kind', label: 'مهربانی', color: 'var(--color-accent-2-500)', bg: 'var(--color-accent-2-100)', fg: 'var(--color-accent-2-800)' },
     { id: 'health', label: 'سلامت', color: 'var(--color-accent-500)', bg: 'var(--color-accent-200)', fg: 'var(--color-accent-800)' },
@@ -709,6 +726,15 @@ class Component extends DCLogic {
     { id: 'learn', label: 'یادگیری', color: 'var(--color-accent-2-700)', bg: 'var(--color-accent-2-200)', fg: 'var(--color-accent-2-900)' },
     { id: 'self', label: 'خودمراقبتی', color: 'var(--color-accent-400)', bg: 'var(--color-accent-100)', fg: 'var(--color-accent-800)' }
   ];
+  tagPalette = [
+    { color: 'var(--color-accent-700)', bg: 'var(--color-accent-100)', fg: 'var(--color-accent-800)' },
+    { color: 'var(--color-accent-2-500)', bg: 'var(--color-accent-2-100)', fg: 'var(--color-accent-2-800)' },
+    { color: 'var(--color-accent-500)', bg: 'var(--color-accent-200)', fg: 'var(--color-accent-800)' },
+    { color: 'var(--color-neutral-600)', bg: 'var(--color-neutral-200)', fg: 'var(--color-neutral-900)' },
+    { color: 'var(--color-accent-2-700)', bg: 'var(--color-accent-2-200)', fg: 'var(--color-accent-2-900)' },
+    { color: 'var(--color-accent-400)', bg: 'var(--color-accent-100)', fg: 'var(--color-accent-800)' }
+  ];
+  getCats() { const t = this.state.tags; return t && t.length ? t : this.defaultCats; }
   quickPool = ['به کسی گوش دادم', 'کمک کردم', 'مراقب خودم بودم', 'سکوت کردم', 'دلگرمی دادم'];
 
   moodWords = ['خیلی سنگین', 'سنگین', 'معمولی', 'خوب', 'سرحال'];
@@ -750,7 +776,7 @@ class Component extends DCLogic {
   _s = 88134;
   rnd() { this._s = (this._s * 1103515245 + 12345) % 2147483648; return this._s / 2147483648; }
   fa(n) { return String(n).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[+d]); }
-  cat(id) { return this.cats.find(c => c.id === id) || this.cats[0]; }
+  cat(id) { const c = this.getCats(); return c.find(x => x.id === id) || c[0]; }
   faDate(d, long) {
     try {
       return new Intl.DateTimeFormat('fa-IR-u-ca-persian', long ? { day: 'numeric', month: 'long', year: 'numeric' } : { day: 'numeric', month: 'long' }).format(d);
@@ -783,14 +809,14 @@ class Component extends DCLogic {
       const s = this.state;
       window.localStorage.setItem(this.KEY, JSON.stringify({
         days: s.days.map(d => Object.assign({}, d, { date: d.date.toISOString() })),
-        minors: s.minors, goal: s.goal, settings: s.settings, theme: s.theme, onb: false, pin: s.pin, inbox: s.inbox, tasks: s.tasks
+        minors: s.minors, goal: s.goal, settings: s.settings, theme: s.theme, onb: false, pin: s.pin, inbox: s.inbox, tasks: s.tasks, tags: s.tags
       }));
     } catch (e) {}
   }
   initialState() {
     const base = {
       tab: 'today', days: this.buildDays(), sheet: false, step: 1, firstTask: false, onb: true, onbStep: 0, theme: 0,
-      minors: [], goal: '', inbox: [], inboxDraft: '', tasks: [], taskDraft: '', taskDraftCat: null,
+      minors: [], goal: '', inbox: [], inboxDraft: '', tasks: [], taskDraft: '', taskDraftCat: null, tags: null, tagDraft: '',
       draft: { done: null, deed: '', deedCat: null, score: 4, mood: 4, energy: 3, task: '', taskCat: null, linked: false },
       settings: { morning: true, night: true, weekly: true, insight: true, lock: false },
       pin: '', pinDraft: '', pinAttempt: '', pinError: false, locked: false
@@ -868,7 +894,8 @@ class Component extends DCLogic {
     const counts = {};
     logged.forEach(d => { if (d.deedCat) counts[d.deedCat] = (counts[d.deedCat] || 0) + 1; });
     const maxC = Math.max.apply(null, Object.values(counts).concat([1]));
-    const catBars = this.cats.map(c => ({
+    const cats = this.getCats();
+    const catBars = cats.map(c => ({
       label: c.label, color: c.color, count: this.fa(counts[c.id] || 0) + ' بار',
       pct: Math.round((counts[c.id] || 0) / maxC * 100)
     })).sort((a, b) => b.pct - a.pct);
@@ -981,7 +1008,23 @@ class Component extends DCLogic {
       })),
       isToday: st.tab === 'today', isInbox: st.tab === 'inbox', isTasks: st.tab === 'tasks', isStats: st.tab === 'stats', isHistory: st.tab === 'history', isSettings: st.tab === 'settings',
       taskDraft: st.taskDraft, onTaskDraft: e => this.setState({ taskDraft: e.target.value }),
-      taskDraftCats: this.cats.map(c => ({
+      tags: cats, tagDraft: st.tagDraft || '', onTagDraft: e => this.setState({ tagDraft: e.target.value }),
+      addTag: () => this.setState(s => {
+        const label = (s.tagDraft || '').trim();
+        if (!label) return {};
+        const base = s.tags && s.tags.length ? s.tags : this.defaultCats;
+        const pal = this.tagPalette[base.length % this.tagPalette.length];
+        const id = 'tag' + Date.now();
+        return { tags: base.concat([Object.assign({ id, label }, pal)]), tagDraft: '' };
+      }),
+      tagList: cats.map(c => ({
+        id: c.id, label: c.label, dot: c.color,
+        remove: () => this.setState(s => {
+          const base = (s.tags && s.tags.length ? s.tags : this.defaultCats).filter(x => x.id !== c.id);
+          return { tags: base.length ? base : this.defaultCats.slice(0, 1) };
+        })
+      })),
+      taskDraftCats: cats.map(c => ({
         label: c.label,
         bg: st.taskDraftCat === c.id ? c.color : 'transparent',
         fg: st.taskDraftCat === c.id ? 'var(--color-bg)' : 'var(--color-neutral-900)',
@@ -1082,8 +1125,8 @@ class Component extends DCLogic {
       deedText: st.draft.deed, onDeed: e => this.setDraft('deed', e.target.value),
       taskText: st.draft.task, onTask: e => this.setDraft('task', e.target.value),
       quickDeeds: this.quickPool.map(q => ({ label: q, pick: () => this.setDraft('deed', q + '.') })),
-      deedCats: this.cats.map(c => Object.assign(chipStyle(c, st.draft.deedCat === c.id), { pick: () => this.setDraft('deedCat', c.id) })),
-      taskCats: this.cats.map(c => Object.assign(chipStyle(c, st.draft.taskCat === c.id), { pick: () => this.setDraft('taskCat', c.id) })),
+      deedCats: cats.map(c => Object.assign(chipStyle(c, st.draft.deedCat === c.id), { pick: () => this.setDraft('deedCat', c.id) })),
+      taskCats: cats.map(c => Object.assign(chipStyle(c, st.draft.taskCat === c.id), { pick: () => this.setDraft('taskCat', c.id) })),
       scores: [1, 2, 3, 4, 5].map(n => ({
         label: this.fa(n),
         bg: st.draft.score === n ? 'var(--color-accent-500)' : 'transparent',
