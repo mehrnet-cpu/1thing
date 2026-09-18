@@ -212,6 +212,45 @@ a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-800)}
 </div>
 </sc-if>
 
+<!-- ══ کارها ══ -->
+<sc-if value="{{ isTasks }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px;padding:0 18px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+<h4 style="margin:0;font-size:22px">کارها</h4>
+<span style="font-size:11px;color:var(--color-neutral-700)">{{ openTasksCount }} باز</span>
+</div>
+<div style="display:flex;gap:8px">
+<input class="input" dir="rtl" value="{{ taskDraft }}" onChange="{{ onTaskDraft }}" placeholder="کار جدید…" style="flex:1;font-family:var(--font-body);font-size:14px;min-height:50px">
+<div role="button" tabindex="0" onClick="{{ addTaskItem }}" class="btn btn-primary" style="min-height:50px;padding-inline:20px;font-family:var(--font-body);font-weight:700;font-size:14px">افزودن</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ taskDraftCats }}" as="c" hint-placeholder-count="6">
+<div role="button" tabindex="0" onClick="{{ c.pick }}" class="tag" style="cursor:pointer;font-size:12px;padding:9px 15px;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.border }}">{{ c.label }}</div>
+</sc-for>
+</div>
+
+<sc-if value="{{ hasTasks }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ taskItems }}" as="it" hint-placeholder-count="5">
+<div class="card" style="background:var(--color-surface);flex-direction:row;align-items:center;gap:12px;padding:14px 16px">
+<div role="button" tabindex="0" onClick="{{ it.toggle }}" style="width:20px;height:20px;flex:none;border-radius:50%;cursor:pointer;border:2px solid {{ it.dotBorder }};background:{{ it.dotBg }}"></div>
+<div style="flex:1;min-width:0;font-size:14px;color:{{ it.fg }};text-decoration:{{ it.deco }};line-height:1.6">{{ it.text }}</div>
+<span class="tag" style="font-size:10px;background:{{ it.catBg }};color:{{ it.catFg }}">{{ it.catLabel }}</span>
+<div role="button" tabindex="0" onClick="{{ it.remove }}" style="width:26px;height:26px;flex:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--color-neutral-600);font-size:14px">×</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ noTasks }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:6px;padding:24px 20px;border-radius:32px;border:1px dashed var(--color-divider);text-align:center">
+<div style="font-size:14px;font-weight:700">فهرست کارها خالی است</div>
+<div style="font-size:12px;color:var(--color-neutral-700);line-height:1.8">هر کار کوچک یا بزرگی که باید انجام شود اینجا اضافه کن.</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
 <!-- ══ نمودار ══ -->
 <sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;flex-direction:column;gap:18px;padding:0 18px">
@@ -744,14 +783,14 @@ class Component extends DCLogic {
       const s = this.state;
       window.localStorage.setItem(this.KEY, JSON.stringify({
         days: s.days.map(d => Object.assign({}, d, { date: d.date.toISOString() })),
-        minors: s.minors, goal: s.goal, settings: s.settings, theme: s.theme, onb: false, pin: s.pin, inbox: s.inbox
+        minors: s.minors, goal: s.goal, settings: s.settings, theme: s.theme, onb: false, pin: s.pin, inbox: s.inbox, tasks: s.tasks
       }));
     } catch (e) {}
   }
   initialState() {
     const base = {
       tab: 'today', days: this.buildDays(), sheet: false, step: 1, firstTask: false, onb: true, onbStep: 0, theme: 0,
-      minors: [], goal: '', inbox: [], inboxDraft: '',
+      minors: [], goal: '', inbox: [], inboxDraft: '', tasks: [], taskDraft: '', taskDraftCat: null,
       draft: { done: null, deed: '', deedCat: null, score: 4, mood: 4, energy: 3, task: '', taskCat: null, linked: false },
       settings: { morning: true, night: true, weekly: true, insight: true, lock: false },
       pin: '', pinDraft: '', pinAttempt: '', pinError: false, locked: false
@@ -926,7 +965,7 @@ class Component extends DCLogic {
       ['insight', 'بازتاب از نوشته‌ها', 'الگوها را روی دستگاه پیدا می‌کند'],
       ['lock', 'قفل با رمز دستگاه', 'دفترچه خصوصی می‌ماند']
     ];
-    const tabDefs = [['today', 'امروز'], ['inbox', 'اینباکس'], ['stats', 'نمودار'], ['history', 'تاریخچه'], ['settings', 'تنظیمات']];
+    const tabDefs = [['today', 'امروز'], ['inbox', 'اینباکس'], ['tasks', 'کارها'], ['stats', 'نمودار'], ['history', 'تاریخچه'], ['settings', 'تنظیمات']];
 
     return {
       th, isDark: dark,
@@ -940,7 +979,35 @@ class Component extends DCLogic {
         fg: i === st.theme ? 'var(--color-accent-800)' : 'var(--color-neutral-800)',
         pick: () => this.setState({ theme: i })
       })),
-      isToday: st.tab === 'today', isInbox: st.tab === 'inbox', isStats: st.tab === 'stats', isHistory: st.tab === 'history', isSettings: st.tab === 'settings',
+      isToday: st.tab === 'today', isInbox: st.tab === 'inbox', isTasks: st.tab === 'tasks', isStats: st.tab === 'stats', isHistory: st.tab === 'history', isSettings: st.tab === 'settings',
+      taskDraft: st.taskDraft, onTaskDraft: e => this.setState({ taskDraft: e.target.value }),
+      taskDraftCats: this.cats.map(c => ({
+        label: c.label,
+        bg: st.taskDraftCat === c.id ? c.color : 'transparent',
+        fg: st.taskDraftCat === c.id ? 'var(--color-bg)' : 'var(--color-neutral-900)',
+        border: st.taskDraftCat === c.id ? c.color : 'var(--color-divider)',
+        pick: () => this.setState({ taskDraftCat: c.id })
+      })),
+      addTaskItem: () => this.setState(s => {
+        const text = (s.taskDraft || '').trim();
+        if (!text) return {};
+        return { tasks: [{ id: Date.now(), text, cat: s.taskDraftCat || 'self', done: false }].concat(s.tasks || []), taskDraft: '', taskDraftCat: null };
+      }),
+      hasTasks: (st.tasks || []).length > 0,
+      noTasks: (st.tasks || []).length === 0,
+      openTasksCount: this.fa((st.tasks || []).filter(x => !x.done).length),
+      taskItems: (st.tasks || []).slice().sort((a, b) => (a.done ? 1 : 0) - (b.done ? 1 : 0)).map(it => {
+        const c = this.cat(it.cat);
+        return {
+          id: it.id, text: it.text, catLabel: c.label, catBg: c.bg, catFg: c.fg,
+          fg: it.done ? 'var(--color-neutral-600)' : 'var(--color-text)',
+          deco: it.done ? 'line-through' : 'none',
+          dotBorder: it.done ? 'var(--color-accent-2-600)' : 'var(--color-neutral-400)',
+          dotBg: it.done ? 'var(--color-accent-2-600)' : 'transparent',
+          toggle: () => this.setState(s => ({ tasks: (s.tasks || []).map(x => x.id === it.id ? Object.assign({}, x, { done: !x.done }) : x) })),
+          remove: () => this.setState(s => ({ tasks: (s.tasks || []).filter(x => x.id !== it.id) }))
+        };
+      }),
       inboxDraft: st.inboxDraft, onInboxDraft: e => this.setState({ inboxDraft: e.target.value }),
       addInboxItem: () => this.setState(s => {
         const text = (s.inboxDraft || '').trim();
